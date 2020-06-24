@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(Ceres REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(Sophus REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -33,19 +34,21 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIRS} 
+  ${SOPHUS_INCLUDE_DIRS}
 )
 
 
 # Declaration of package required
 
 ## Declare a C++ library
-#add_library(${PROJECT_NAME}
-#)
+add_library(${PROJECT_NAME}
+  src/pose_graph_3d.cpp
+)
 
 # if (GFLAGS)
-  add_executable(pose_graph src/pose_graph_3d.cpp)
-  target_link_libraries(pose_graph ${catkin_LIBRARIES} ${CERES_LIBRARIES} ${GFLAGS_LIBRARIES})
+  add_executable(pose_graph test/pose_graph.cpp)
+  target_link_libraries(pose_graph ${catkin_LIBRARIES} ${PROJECT_NAME} ${CERES_LIBRARIES} ${GFLAGS_LIBRARIES} ${SOPHUS_LIBRARIES})
 # endif (GFLAGS)
 
 
